@@ -163,11 +163,11 @@ cat /TeamCity/logs/catalina.out
 
 ![image1](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2000-19-54%20Log%20in%20to%20TeamCity%20%E2%80%94%20TeamCity.png)
 
-now we have access to the super user dash board. lets try to upload a reverse shell on this page somehow. start by creating a project. name it anything. 
+now we have access to the super user dash board. enter the super user authentication token we found earlier in the logs. lets try to upload a reverse shell on this page somehow. 
 
 ![image2](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2000-22-27%20Log%20in%20as%20Super%20user%20%E2%80%94%20TeamCity.png)
 
-after that save the changes and then click on the build configuration option
+start by creating a project. name it anything. after that save the changes and then click on the build configuration option
 
 ![image3](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2013-00-03%20Create%20Project%20%E2%80%94%20TeamCity.png)
 
@@ -193,4 +193,4 @@ nc -lnvp 4444
 ```
 now we will click on save, we can click on the `Run` button in order to trigger the shell.
 
-annd just like that, we have solved one of the most difficult most exhausting Easy level ctf on TryHackMe. Kudos to the creator!
+and just like that, we have solved one of the most difficult most exhausting Easy level ctf on TryHackMe. Kudos to the creator!
