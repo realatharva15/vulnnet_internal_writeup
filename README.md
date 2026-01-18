@@ -43,7 +43,8 @@ lets start enumerating with the samba shares.
 ```bash
 smbclient -L //<target_ip> -N
 ```
-`Sharename       Type      Comment
+
+        Sharename       Type      Comment
        
         ---------       ----      -------
         
@@ -51,7 +52,7 @@ smbclient -L //<target_ip> -N
         
         shares          Disk      VulnNet Business Shares
         
-        IPC$            IPC       IPC Service (ip-10-80-174-137 server (Samba, Ubuntu))`
+        IPC$            IPC       IPC Service (ip-10-80-174-137 server (Samba, Ubuntu))
 
 so there is a share named as "share". lets access this share to get any leads.
 
