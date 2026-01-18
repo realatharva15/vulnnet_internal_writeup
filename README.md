@@ -144,6 +144,10 @@ now we can access the website at `http://localhost:8111` on visiting the website
 
 turns out this requires a super user authentication token. previously in the /TeamCity directory, we found a /logs directory as well. lets navigate to that location in ordewr to find something useful. after about 10 minutes of manual enumeration, we finally find the super user token in the file `catalina.out`
 
+```bash
+cat /TeamCity/logs/catalina.out
+```
+
 `NOTE: Copy the latest super user authentication token, it probably starts with a '6'. make sure that you do not select the older super user tokens since they might be invalid`
 
 now we have access to the super user dash board. lets try to upload a reverse shell on this page somehow. start by creating a project. name it anything. 
